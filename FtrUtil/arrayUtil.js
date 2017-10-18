@@ -13,4 +13,5 @@ function arraysEqual(a, b) {
 	}
 	return true;
 }
+
 module.exports.arraysEqual = arraysEqual;

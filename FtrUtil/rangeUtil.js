@@ -20,8 +20,6 @@ function doRangesOverlap(b0, e0, b1, e1) {
 	}
 	return false;
 }
-module.exports.doRangesOverlap = doRangesOverlap;
-
 
 function isSubsumed(b0, e0, b1, e1) {
 	if (doRangesOverlap(b0, e0, b1, e1) == false) {
@@ -34,8 +32,6 @@ function isSubsumed(b0, e0, b1, e1) {
 	}
 	return false;
 }
-module.exports.isSubsumed = isSubsumed;
-
 
 function subsumedBoundIndices(bnds) {
 	/*
@@ -64,4 +60,7 @@ function subsumedBoundIndices(bnds) {
 	}
 	return indices;
 }
+
+module.exports.doRangesOverlap = doRangesOverlap;
+module.exports.isSubsumed = isSubsumed;
 module.exports.subsumedBoundIndices = subsumedBoundIndices;

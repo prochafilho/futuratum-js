@@ -1,13 +1,15 @@
 var dictUtil = require('./../../FtrUtil/dictUtil.js');
 
-
 function testUpdateListDict() {
-	d = {};
+	var d = {};
 	dictUtil.updateListDict(d, 'x', 1);
+
 	if ('x' in d == false || d['x'][0] != 1 || d['x'].length != 1) {
 		return false;
 	}
+
 	dictUtil.updateListDict(d, 'x', 2);
+
 	if (
 		'x' in d == false ||
 		d['x'][0] != 1 ||
@@ -16,7 +18,9 @@ function testUpdateListDict() {
 	) {
 		return false;
 	}
+
 	dictUtil.updateListDict(d, 'y', 3);
+
 	if (
 		'x' in d == false ||
 		d['x'][0] != 1 ||
@@ -28,7 +32,6 @@ function testUpdateListDict() {
 		return false;
 	}
 	return true;
-
 }
 
 // true if pass, false if fail

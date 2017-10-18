@@ -3,7 +3,6 @@ var dictUtil = require('./../FtrUtil/dictUtil.js');
 var rangeUtil = require('./../FtrUtil/rangeUtil.js');
 var arrayUtil = require('./../FtrUtil/arrayUtil.js');
 
-
 function matchBounds(tkns, ngramCandidatesOnStart, keepSubsumed=true) {
 	var bnds = [];
 	for (i = 0; i < tkns.length; i += 1) {
@@ -24,7 +23,7 @@ function matchBounds(tkns, ngramCandidatesOnStart, keepSubsumed=true) {
 				matchNgrams.push(candidateNgrams[j])
 			}
 		}
-		
+
 		for (j = 0; j < matchNgrams.length; j += 1) {
 			var slice = tkns.slice(i, i + matchNgrams[j].length)
 			for (k = 0; k < candidateNgrams.length; k += 1) {
@@ -39,8 +38,8 @@ function matchBounds(tkns, ngramCandidatesOnStart, keepSubsumed=true) {
 		return bnds;
 	}
 
-	subsumed = rangeUtil.subsumedBoundIndices(bnds);
-	keeps = [];
+	var subsumed = rangeUtil.subsumedBoundIndices(bnds);
+	var keeps = [];
 	for (i = 0; i < bnds.length; i += 1) {
 		if (subsumed.has(i) == false) {
 			keeps.push(bnds[i]);
@@ -48,7 +47,6 @@ function matchBounds(tkns, ngramCandidatesOnStart, keepSubsumed=true) {
 	}
 	return keeps;
 }
-
 
 class NgramMatcher {
 	constructor(keepSubsumed=true, ngramCandidatesOnStart={}) {
@@ -83,6 +81,6 @@ class NgramMatcher {
 		}
 		return matches;
 	}
-
 }
+
 module.exports.NgramMatcher = NgramMatcher;
