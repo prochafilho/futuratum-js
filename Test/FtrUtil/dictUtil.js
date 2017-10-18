@@ -31,4 +31,5 @@ function testUpdateListDict() {
 
 }
 
+// true if pass, false if fail
 console.log(testUpdateListDict());
