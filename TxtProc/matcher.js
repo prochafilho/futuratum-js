@@ -138,16 +138,26 @@ class NgramMatcher {
 	}
 
 	addNgram(ngram) {
+		/*
+		:type ngram: array<str>
+		*/
 		dictUtil.updateListDict(this.ngramCandidatesOnStart, ngram[0], ngram);
 	}
 
 	findMatchBnds(tkns) {
+		/*
+		:type tkns: list<str>
+		:rtype: list<[int, int]>
+		*/
 		return matchBounds(tkns, this.ngramCandidatesOnStart, this.keepSubsumed);
 	}
 
 	findMatches(tkns) {
+		/*
+		:type tkns: list<str>
+		:rtype: list<str>
+		*/
 		var bnds = this.findMatchBnds(tkns);
-		//console.log(bnds)
 		var matches = [];
 		for (i = 0; i < bnds.length; i += 1) {
 			matches.push(tkns.slice(bnds[i][0], bnds[i][1]));
@@ -166,8 +176,6 @@ var d = {
 	'bull':[['bull'], ['bull', 'trap']],
 };
 
-//console.log(matchBounds(['omg', 'is', 'worth', 'buying'], d));
-//console.log(matchBounds(["it's", 'a', 'bull', 'trap', 'now', 'omg'], d));
 m = new NgramMatcher(keepSubsumed=true);
 m.addNgram(['omg']);
 m.addNgram(['bull']);
