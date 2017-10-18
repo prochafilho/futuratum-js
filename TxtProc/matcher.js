@@ -1,9 +1,5 @@
-function updateListDict(d, k, v) {
-	if (k in d == false) {
-		d[k] = [];
-	}
-	d[k].push(v);
-}
+// imports
+var dictUtil = require('./../FtrUtil/dictUtil.js');
 
 
 function doRangesOverlap(b0, e0, b1, e1) {
@@ -24,7 +20,7 @@ function doRangesOverlap(b0, e0, b1, e1) {
     - doRangesOverlap(0, 4, 6, 9)
 	*/
 	if ((b0 <= b1 && b1 <= e0) || (b0 <= e1) && (e1 <= e0)) {
-		return true
+		return true;
 	}
 	return false;
 }
@@ -142,7 +138,7 @@ class NgramMatcher {
 	}
 
 	addNgram(ngram) {
-		updateListDict(this.ngramCandidatesOnStart, ngram[0], ngram);
+		dictUtil.updateListDict(this.ngramCandidatesOnStart, ngram[0], ngram);
 	}
 
 	findMatchBnds(tkns) {
@@ -165,7 +161,6 @@ class NgramMatcher {
 //Testing code
 //	TODO: assertion statements
 
-//sconsole.log(doRangesOverlap(1, 5, 3, 4));
 var d = {
 	'omg':[['omg']],
 	'bull':[['bull'], ['bull', 'trap']],
