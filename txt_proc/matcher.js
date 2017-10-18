@@ -1,3 +1,11 @@
+function updateListDict(d, k, v) {
+	if (k in d == false) {
+		d[k] = [];
+	}
+	d[k].push(v);
+}
+
+
 function doRangesOverlap(b0, e0, b1, e1) {
 	/*
     b0 and e0 are one pair of start and end boundaries
@@ -128,9 +136,13 @@ function matchBounds(tkns, ngramCandidatesOnStart, keepSubsumed=true) {
 
 
 class NgramMatcher {
-	constructor(ngramCandidatesOnStart, keepSubsumed=true) {
+	constructor(keepSubsumed=true, ngramCandidatesOnStart={}) {
 		this.ngramCandidatesOnStart = ngramCandidatesOnStart;
 		this.keepSubsumed = keepSubsumed;
+	}
+
+	addNgram(ngram) {
+		updateListDict(this.ngramCandidatesOnStart, ngram[0], ngram);
 	}
 
 	findMatchBnds(tkns) {
@@ -139,7 +151,7 @@ class NgramMatcher {
 
 	findMatches(tkns) {
 		var bnds = this.findMatchBnds(tkns);
-		console.log(bnds)
+		//console.log(bnds)
 		var matches = [];
 		for (i = 0; i < bnds.length; i += 1) {
 			matches.push(tkns.slice(bnds[i][0], bnds[i][1]));
@@ -149,22 +161,33 @@ class NgramMatcher {
 
 }
 
-/*
-Testing code
-	TODO: assertion statements
-*/
-console.log(doRangesOverlap(1, 5, 3, 4));
+
+//Testing code
+//	TODO: assertion statements
+
+//sconsole.log(doRangesOverlap(1, 5, 3, 4));
 var d = {
 	'omg':[['omg']],
 	'bull':[['bull'], ['bull', 'trap']],
 };
-console.log(matchBounds(['omg', 'is', 'worth', 'buying'], d));
-console.log(matchBounds(["it's", 'a', 'bull', 'trap', 'now', 'omg'], d));
 
-m = new NgramMatcher(d, keepSubsumed=true);
+//console.log(matchBounds(['omg', 'is', 'worth', 'buying'], d));
+//console.log(matchBounds(["it's", 'a', 'bull', 'trap', 'now', 'omg'], d));
+m = new NgramMatcher(keepSubsumed=true);
+m.addNgram(['omg']);
+m.addNgram(['bull']);
+m.addNgram( ['bull', 'trap'] );
+
+console.log(m.ngramCandidatesOnStart)
+//m = new NgramMatcher(keepSubsumed=true, d);
 console.log(m.findMatches(['omg', 'is', 'worth', 'buying']));
-console.log(m.findMatches(["it's", 'a', 'bull', 'trap', 'now', 'omg']));
+console.log(m.findMatches(["it's", 'a', 'bull', 'trap', 'now']));
 
-m = new NgramMatcher(d, keepSubsumed=false);
+console.log('\n');
+
+m = new NgramMatcher(keepSubsumed=false);
+m.addNgram(['omg']);
+m.addNgram(['bull']);
+m.addNgram( ['bull', 'trap'] );
 console.log(m.findMatches(['omg', 'is', 'worth', 'buying']));
 console.log(m.findMatches(["it's", 'a', 'bull', 'trap', 'now', 'omg']));
