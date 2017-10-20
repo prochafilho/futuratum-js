@@ -49,6 +49,26 @@ function matchBounds(tkns, ngramCandidatesOnStart, keepSubsumed=true) {
 }
 
 class NgramMatcher {
+	/*
+	Usage:
+		Given a set of ngrams, discover matches in token lists.
+
+		Example:
+			Source Ngrams: [
+				['janet'],
+				['janet', 'yellen'],
+				['new', 'york']
+			]
+			Tokenized Input Document: [
+				'janet', 'yellen', 'does', 'not', 'live', 'in', 'new', 'york'
+			]
+
+			If keepSubsumed == true, findMatches would return
+			[ ['janet'], ['janet', 'yellen'], ['new', 'york'] ]
+
+			If keepSubsumed == false, findMatches would return
+			[ ['janet', 'yellen'], ['new', 'york'] ]
+	*/
 	constructor(keepSubsumed=true, ngramCandidatesOnStart={}) {
 		this.ngramCandidatesOnStart = ngramCandidatesOnStart;
 		this.keepSubsumed = keepSubsumed;
