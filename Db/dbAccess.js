@@ -1,10 +1,10 @@
 // var pg = require('pg');
 const { Pool } = require('pg');
-const pool = new Pool();
+
 
 // Make sure you have set these env vars to the correct values.
 // Otherwise this won't work.
-var cnx = {
+const cnx = {
 	user: process.env.FUTR_DB_USER,
 	host: process.env.FUTR_DB_HOST,
 	database: process.env.FUTR_DB_NAME,
@@ -12,11 +12,12 @@ var cnx = {
 	port: process.env.FUTR_DB_PORT
 };
 
-var globalOut;
+let globalOut;
 
 function getRowsFromStmt(stmt) {
 	// var pool = pg.Pool(cnx);
-	//
+	const pool = new Pool(cnx);
+	
 	// return pool.query(
 	// 	stmt,
 	// 	(err, res) => {
@@ -27,7 +28,7 @@ function getRowsFromStmt(stmt) {
 
 	pool.query(stmt, (err, result) => {
 	  if (err) {
-	    return console.error('Error executing query', err.stack)
+	    return console.error('Error executing query', err.stack);
 	  }
 	  console.log('result', result);
 	});
@@ -35,7 +36,7 @@ function getRowsFromStmt(stmt) {
 
 function demo() {
 	getRowsFromStmt('SELECT * FROM ASSET;');
-	console.log('globalOut = ', globalOut);
+	console.log('globalOut =', globalOut);
 }
 
 demo();
