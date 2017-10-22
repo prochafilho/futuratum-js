@@ -1,13 +1,44 @@
-var pg = require('pg');
+// var pg = require('pg');
+const { Pool } = require('pg');
+const pool = new Pool();
 
-function getCnxPool() {
-	return new pg.Pool({
-		user: process.env.FUTR_DB_USER,
-		host: process.env.FUTR_DB_HOST,
-		database: process.env.FUTR_DB_NAME,
-		password: process.env.FUTR_DB_PASS,
-		port: process.env.FUTR_DB_PORT
+// Make sure you have set these env vars to the correct values.
+// Otherwise this won't work.
+var cnx = {
+	user: process.env.FUTR_DB_USER,
+	host: process.env.FUTR_DB_HOST,
+	database: process.env.FUTR_DB_NAME,
+	password: process.env.FUTR_DB_PASS,
+	port: process.env.FUTR_DB_PORT
+};
+
+var globalOut;
+
+function getRowsFromStmt(stmt) {
+	// var pool = pg.Pool(cnx);
+	//
+	// return pool.query(
+	// 	stmt,
+	// 	(err, res) => {
+	// 	  console.log('res', res);
+	// 		pool.end();
+	// 		return res;
+	//   });
+
+	pool.query(stmt, (err, result) => {
+	  if (err) {
+	    return console.error('Error executing query', err.stack)
+	  }
+	  console.log('result', result);
 	});
 }
 
-module.exports.getCnxPool = getCnxPool;
+function demo() {
+	getRowsFromStmt('SELECT * FROM ASSET;');
+	console.log('globalOut = ', globalOut);
+}
+
+demo();
+
+module.exports.cnx = cnx;
+module.exports.getRowsFromStmt = getRowsFromStmt;

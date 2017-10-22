@@ -1,0 +1,23 @@
+{
+  "name": "futuratum-js",
+  "version": "0.0.1",
+  "description": "Futuratum data processor",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Futuratum/futuratum-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Futuratum/futuratum-js/issues"
+  },
+  "homepage": "https://github.com/Futuratum/futuratum-js#readme",
+  "dependencies": {
+    "pg": "^7.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
