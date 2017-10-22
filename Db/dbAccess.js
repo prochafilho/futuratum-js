@@ -1,43 +1,83 @@
-// npm install pg
-var pg = require('pg');
-
+// var pg = require('pg');
+const { Pool } = require('pg');
+const Promise = require('bluebird')
 // Make sure you have set these env vars to the correct values.
 // Otherwise this won't work.
-const cnx = {
+var cnx = {
 	user: process.env.FUTR_DB_USER,
 	host: process.env.FUTR_DB_HOST,
 	database: process.env.FUTR_DB_NAME,
 	password: process.env.FUTR_DB_PASS,
 	port: process.env.FUTR_DB_PORT
 };
+var pool = new Pool(cnx);
+var globalOut;
 
-module.exports.cnx = cnx
+function updateGlobal(result) {
+	globalOut = result;
+}
 
-
-var globalOut = null;
-function getRowsFromStmt(stmt) {
-	var pool = pg.Pool(cnx)
+function handleResult(resolve) {
 	pool.query(
 		stmt,
-		function(error, result) {
-			// I was trying to set the global variable globalOut
-			// to equal result.rows. However, I think that the
-			// async code is out of scope here.
-			globalOut = result.rows;
-			// Uncomment this to see the output of the query.
-			// This is apparantly not the same as variable as
-			// globalOut declared above.
-			// console.log(globalOut);
+		(err, res) => {
+			return resolve(res);
 		}
 	)
 }
 
-module.exports.getRowsFromStmt = getRowsFromStmt;
+/*
+function (resolve, reject) {
+	pool.query(stmt, (err, result) {
+		if (err) return reject(err) return resolve(result)
+	})
+}
+*/
 
+function getRowsFromStmt(stmt) {
+	// var pool = pg.Pool(cnx);
+	//
+	// return pool.query(
+	// 	stmt,
+	// 	(err, res) => {
+	// 	  console.log('res', res);
+	// 		pool.end();
+	// 		return res;
+	//   });
+	return new Promise(function (resolve, reject) {
+		pool.query(stmt, (err, result) => {
+			if (err) {
+				return reject(err);
+			}
+			else {
+				return resolve(result);
+			}
+		})
+	});
+	/*
+	pool.query(stmt, (err, result) => {
+	  if (err) {
+	    return console.error('Error executing query', err.stack)
+	  }
+	  console.log('INTERNAL');
+	  //console.log('result', result);
+	  updateGlobal(globalOut);
+	  console.log('EXITINTERNAL');
+	});
+	*/
+}
 
 function demo() {
-	getRowsFromStmt('SELECT * FROM ASSET;');
+	getRowsFromStmt('SELECT * FROM ASSET;').then(
+		function(result) {
+			globalOut=result;
+			return result;
+		}
+	).then(console.log(globalOut))
 	console.log(globalOut);
 }
 
 demo();
+
+module.exports.cnx = cnx;
+module.exports.getRowsFromStmt = getRowsFromStmt;
