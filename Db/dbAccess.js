@@ -1,9 +1,9 @@
-var syncSql = require('sync-sql');
-var pgFmt = require('pg-format');
+const syncSql = require('sync-sql');
+const pgFmt = require('pg-format');
 
 // Make sure you have set these env vars to the correct values.
 // Otherwise this won't work.
-var cnx = {
+const cnx = {
 	user: process.env.FUTR_DB_USER,
 	host: process.env.FUTR_DB_HOST,
 	database: process.env.FUTR_DB_NAME,
@@ -54,7 +54,36 @@ function insertMany(stmt, rows) {
 }
 
 
+function mkMapping(kCol, vCol, tbl) {
+	var stmt = 'SELECT ' + kCol + ',' + vCol + ' FROM ' + tbl + ';';
+	var rows = getRowsFromStmt(stmt);
+	d = {};
+	for (var i = 0; i < rows.length; i+=1) {
+		d[rows[i][kCol]] = rows[i][vCol];
+	}
+	return d;
+}
+
+
+function getIdOnQuoteSrcMap() {
+	return mkMapping('quotesrc', 'quotesrc_id', 'quotesrc');
+}
+
+
+function getIdOnAssetMap() {
+	return mkMapping('assetname', 'assetid', 'asset');
+}
+
+
+function getIdOnQuoteTypeMap() {
+	return mkMapping('quotetype', 'quotetype_id', 'quotetype');
+}
+
+
 module.exports.cnx = cnx;
 module.exports.getRowsFromStmt = getRowsFromStmt;
 module.exports.mkInsertManyStmt = mkInsertManyStmt;
 module.exports.insertMany = insertMany;
+module.exports.getIdOnQuoteSrcMap = getIdOnQuoteSrcMap;
+module.exports.getIdOnAssetMap = getIdOnAssetMap;
+module.exports.getIdOnQuoteTypeMap = getIdOnQuoteTypeMap;

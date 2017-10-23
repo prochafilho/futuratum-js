@@ -1,5 +1,5 @@
 
-var matcher = require('./../TxtProc/matcher.js');
+var matcher = require('./../TxtProc/matcher');
 var m = new matcher.NgramMatcher();
 console.log('\
 Example:\n\tJanet yellen lives in new york\
