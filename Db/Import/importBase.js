@@ -35,7 +35,7 @@ QuoteImporter.prototype.insertDbRows = function(dbRows) {
 }
 
 QuoteImporter.prototype.insertDataFromFile = function(fp) {
-  var dbRows = this.convertDtaToDbRows(fp);
+  var dbRows = this.convertFileToDbRows(fp);
   this.insertDbRows(dbRows);
 }
 

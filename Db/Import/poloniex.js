@@ -5,6 +5,7 @@ var PoloniexImporter = function(assetName, exAssetName, quoteSrc, epInterval) {
   importBase.QuoteImporter.call(this, assetName, exAssetName, quoteSrc, epInterval);
 }
 PoloniexImporter.prototype = Object.create(importBase.QuoteImporter.prototype);
+PoloniexImporter.constructor = PoloniexImporter;
 
 PoloniexImporter.prototype.convertDtaToDbRows = function(dta) {
   quoteTypeMap = {
